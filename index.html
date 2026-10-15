@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Surprise for Akka 💗</title>
+
+<style>
+:root {
+  --pink: #f6a9c4;
+  --deep: #b92766;
+  --cream: #fff8fb;
+  --text: #72284a;
+  --gold: #d9a85c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--text);
+  text-align: center;
+  background:
+    radial-gradient(ellipse at top, #fffafd 0%, #ffe5ef 46%, #f8bfd4 100%);
+  overflow-x: hidden;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 28px 18px 42px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  animation: fade .7s ease;
+}
+
+.screen.active { display: flex; }
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  margin: 18px 0;
+  color: #9e2456;
+  text-shadow: 0 5px 20px #c83c7920;
+}
+
+h2 { font-size: clamp(1.4rem, 4vw, 2rem); }
+
+p {
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  line-height: 1.8;
+  max-width: 680px;
+  margin: 10px auto;
+}
+
+button {
+  border: 1px solid #e8a2bc;
+  border-radius: 999px;
+  padding: 14px 24px;
+  margin: 14px 5px;
+  background: linear-gradient(135deg, #d83d7a, #a91e59);
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  box-shadow: 0 8px 22px #a91e5930;
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+}
+
+button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px #a91e5940;
+}
+
+input {
+  width: min(88vw, 360px);
+  padding: 15px;
+  border: 1px solid #e7a1bd;
+  border-radius: 14px;
+  background: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  text-align: center;
+  outline-color: #d83d7a;
+  margin: 12px;
+}
+
+.big-heart {
+  font-size: clamp(120px, 32vw, 230px);
+  line-height: 1;
+  cursor: pointer;
+  filter: drop-shadow(0 15px 18px #c42e6b38);
+  animation: heartbeat 1.2s infinite;
+  user-select: none;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.heart-wrap {
+  display: grid;
+  place-items: center;
+}
+
+.heart-label {
+  font-size: 1.1rem;
+  margin-top: 22px;
+}
+
+.panel {
+  width: min(94vw, 700px);
+  padding: 24px 20px;
+  border: 1px solid #f1bfd0;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #ffffffed, #fff5f9ed);
+  box-shadow: 0 12px 35px #92264c14;
+  margin: 12px auto;
+}
+
+.photo-frame {
+  width: min(86vw, 360px);
+  padding: 10px;
+  background: linear-gradient(145deg, #fff, #fff0f6);
+  border: 1px solid #edc2a0;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px #92264c25;
+  margin: 18px auto;
+}
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: min(64vh, 430px);
+  object-fit: cover;
+  border-radius: 13px;
+}
+
+.caption {
+  font-size: 1.15rem;
+  font-style: italic;
+}
+
+/* Premium final message */
+.final-love {
+  background: linear-gradient(120deg, #9e2456, #e14d91, #a91e59);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 7px 24px #d83d7a20;
+}
+
+.kiss-row {
+  font-size: clamp(1.7rem, 6vw, 2.8rem);
+  letter-spacing: .12em;
+  margin: 4px auto 14px;
+  animation: kissGlow 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes kissGlow {
+  from {
+    transform: scale(.98);
+    filter: drop-shadow(0 0 2px #f4a4c4);
+  }
+  to {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 12px #f4a4c4);
+  }
+}
+
+/* Jumping card */
+.jump-card {
+  width: min(88vw, 340px);
+  min-height: 185px;
+  padding: 25px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #fff0f6, #ffd0e0);
+  border: 2px solid #e8a1bd;
+  box-shadow: 0 14px 30px #a91e5920;
+  cursor: pointer;
+  animation: jump 1s ease-in-out infinite;
+}
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+.card-icon { font-size: 4rem; }
+
+.card-photo {
+  width: min(100%, 245px);
+  margin: 14px auto;
+  padding: 7px;
+  background: linear-gradient(135deg, #fff, #ffe4ef);
+  border: 1px solid #edc2a0;
+  border-radius: 17px;
+  box-shadow: 0 8px 24px #9d24551c;
+}
+
+.card-photo img {
+  display: block;
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 11px;
+}
+
+/* Sister message lines */
+.line {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: lineIn .8s ease forwards;
+  margin: 10px auto;
+}
+
+.line:nth-child(1) { animation-delay: .2s; }
+.line:nth-child(2) { animation-delay: 1.3s; }
+.line:nth-child(3) { animation-delay: 2.4s; }
+.line:nth-child(4) { animation-delay: 3.5s; }
+.line:nth-child(5) { animation-delay: 4.6s; }
+
+@keyframes lineIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Flying butterfly */
+.butterfly-area {
+  height: 260px;
+  width: min(94vw, 650px);
+  position: relative;
+  overflow: hidden;
+  margin: 10px auto;
+}
+
+.butterfly {
+  position: absolute;
+  left: 0;
+  top: 80px;
+  font-size: clamp(70px, 18vw, 125px);
+  cursor: pointer;
+  filter: drop-shadow(0 8px 12px #ad2e7040);
+  animation: fly 5s ease-in-out infinite alternate;
+}
+
+@keyframes fly {
+  0% { left: 0; top: 90px; transform: rotate(-12deg); }
+  30% { left: 28%; top: 20px; transform: rotate(15deg); }
+  65% { left: 55%; top: 115px; transform: rotate(-8deg); }
+  100% { left: 72%; top: 45px; transform: rotate(12deg); }
+}
+
+.photo-rotate {
+  animation: photoTurn 1s ease both;
+}
+
+@keyframes photoTurn {
+  from { transform: rotate(-8deg) scale(.85); opacity: 0; }
+  to { transform: rotate(0) scale(1); opacity: 1; }
+}
+
+/* Balloons */
+.balloons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px auto;
+  max-width: 540px;
+}
+
+.balloon {
+  font-size: clamp(55px, 13vw, 85px);
+  border: 0;
+  background: transparent;
+  padding: 5px;
+  box-shadow: none;
+  animation: balloonFloat 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 6px 6px #a91e5920);
+}
+
+.balloon:nth-child(even) { animation-delay: .5s; }
+
+@keyframes balloonFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-13px); }
+}
+
+.error { color: #a31348; min-height: 24px; }
+.small-note { font-size: .9rem; opacity: .8; }
+.hidden { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="song" preload="auto" loop>
+  <source src="order3.mpeg" type="audio/mpeg">
+</audio>
+
+<!-- SCREEN 1: HEART -->
+<section id="s1" class="screen active">
+  <div class="heart-wrap">
+    <div class="big-heart"
+      role="button"
+      tabindex="0"
+      aria-label="Tap the heart"
+      onclick="tapHeart()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tapHeart()}">❤️</div>
+  </div>
+
+  <h1>A Little Surprise From Your Sister </h1>
+  <p id="heartText" class="heart-label">Tap the big heart to begin 💗</p>
+
+  <button id="heartNext" class="hidden" onclick="go('s2')">
+    Open your surprise ✨
+  </button>
+</section>
+
+<!-- SCREEN 2: PASSWORD -->
+<section id="s2" class="screen">
+  <h1>Just for You, Akka 💗</h1>
+
+  <div class="panel">
+    <p>A little name, a little secret, and a lot of love.</p>
+    <p>Enter your name to unlock the next surprise.</p>
+
+    <input id="nameInput" type="password"
+      placeholder="Enter password" autocomplete="off">
+
+    <p id="nameError" class="error" role="alert"></p>
+
+    <button onclick="unlock()">Unlock 💌</button>
+  </div>
+</section>
+
+<!-- SCREEN 3: JUMPING CARD WITH FIRST PHOTO -->
+<section id="s3" class="screen">
+  <h1>One Little Card, Just for You</h1>
+
+  <div class="jump-card"
+    role="button"
+    tabindex="0"
+    onclick="revealCard()"
+    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();revealCard()}">
+
+    <div class="card-icon">💌</div>
+    <h2 id="cardTitle">A little surprise</h2>
+    <p id="cardTapText">Tap to open</p>
+
+    <div id="cardInside" class="hidden">
+      <div class="card-photo">
+        <img src="image1.jpeg" alt="A special memory together">
+      </div>
+
+      <p class="caption">
+        You are more important to me than words can ever explain.
+        You are my sister, my strength, and one of the most precious
+        person in my life. I’m so lucky to have you, Akka. ❤️
+      </p>
+    </div>
+  </div>
+
+  <button id="cardNext" class="hidden" onclick="go('s4')">
+    A little message for you →
+  </button>
+</section>
+
+<!-- SCREEN 4: OWN SISTERS -->
+<section id="s4" class="screen">
+  <h1>A Bond Only Sisters Share 💞</h1>
+
+  <div class="panel">
+    <p class="line">
+      Growing up as sisters means sharing memories, little fights,
+      laughter, and a love that never fades.
+    </p>
+
+    <p class="line">
+      You understand each other in ways nobody else can,
+      and even ordinary days become special together.
+    </p>
+
+    <p class="line">
+      Through every change in life, the bond between two sisters
+      remains close to the heart.
+    </p>
+
+    <p class="line">
+      May you always have reasons to smile and countless
+      beautiful memories to share.
+    </p>
+
+    <p class="line">
+      No matter where life takes you, you will always have each other. ❤️
+    </p>
+  </div>
+
+  <button onclick="go('s5')">
+    Are you ready for the next one? 💗
+  </button>
+</section>
+
+<!-- SCREEN 5: SECOND PHOTO -->
+<section id="s5" class="screen">
+  <h1>Surprise Number Two 📸</h1>
+
+  <div class="photo-frame">
+    <img src="image2.jpeg" alt="Second surprise photo">
+  </div>
+
+  <div class="panel">
+    <p class="caption">
+      Keep this moment close to your heart. The best memories
+      are the ones that remind us how much we mean to each other. 💗
+    </p>
+  </div>
+
+  <button onclick="go('s6')">Something is flying your way…</button>
+</section>
+
+<!-- SCREEN 6: BUTTERFLY -->
+<section id="s6" class="screen">
+  <h1>A Butterfly Has a Secret 🦋</h1>
+  <div class="butterfly-area">
+    <div class="butterfly"
+      role="button"
+      tabindex="0"
+      aria-label="Catch the butterfly"
+      onclick="catchButterfly()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();catchButterfly()}">🦋</div>
+  </div>
+
+  <div id="butterflyReveal" class="hidden">
+    <div class="photo-frame photo-rotate">
+      <img src="image3.jpeg" alt="Third surprise photo">
+    </div>
+
+    <button onclick="go('s7')">One more surprise 🎈</button>
+  </div>
+</section>
+
+<!-- SCREEN 7: BALLOONS -->
+<section id="s7" class="screen">
+  <h1>Akka, You're Very Close to Your Surprise! 💗</h1>
+  <div id="balloons" class="balloons">
+    <button class="balloon" aria-label="Heart 1" onclick="popBalloon(1)">❤️</button>
+    <button class="balloon" aria-label="Heart 2" onclick="popBalloon(2)">❤️</button>
+    <button class="balloon" aria-label="Heart 3" onclick="popBalloon(3)">❤️</button>
+    <button class="balloon" aria-label="Heart 4" onclick="popBalloon(4)">❤️</button>
+    <button class="balloon" aria-label="Heart 5" onclick="popBalloon(5)">❤️</button>
+  </div>
+
+  <p id="balloonMessage" class="small-note">
+    Tap a balloon to discover what's inside.
+  </p>
+
+  <div id="balloonReveal" class="hidden">
+    <div class="photo-frame">
+      <img src="image4.jpeg" alt="Balloon surprise photo">
+    </div>
+
+    <div class="panel">
+      <p class="caption">
+        A little surprise to remind you how loved you are. 💕
+      </p>
+    </div>
+
+    <button onclick="go('s8')">Ready for the final surprise? ❤️</button>
+  </div>
+</section>
+
+<!-- SCREEN 8: FINAL MOTHER AND SISTER PHOTO -->
+<section id="s8" class="screen">
+
+  <div id="finalPrompt" class="panel">
+    <h1>A Little More Love 💌</h1>
+    <p>And finally… a picture of the two people who mean so much. ❤️</p>
+    <button onclick="showFinal()">See the final surprise ✨</button>
+  </div>
+
+  <div id="finalReveal" class="hidden">
+    <h1 class="final-love">Love you, Akkaaaaaaaaaaa 😘💋😘</h1>
+    <div class="kiss-row">💋 💋 💋 💖 💋 💋 💋</div>
+
+    <div class="photo-frame">
+      <img src="image5.jpeg" alt="A special photo of mother and sister">
+    </div>
+
+    <div class="panel">
+      <p class="caption">
+        A mother's love and a sister's love make life more beautiful.
+        May this bond always be filled with warmth, care, and happiness. ❤️
+      </p>
+
+      <p class="caption">
+        <strong>Sending you the biggest hug and lots of kisses! 😘💋❤️</strong>
+      </p>
+    </div>
+
+    <button onclick="restart()">Replay the surprise ↻</button>
+  </div>
+</section>
+
+<script>
+const song = document.getElementById("song");
+
+let heartTapped = false;
+let cardOpened = false;
+let butterflyCaught = false;
+let balloonFound = false;
+let finalShown = false;
+
+function go(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function tapHeart() {
+  if (heartTapped) return;
+
+  heartTapped = true;
+
+  document.querySelector("#s1 h1").classList.add("hidden");
+
+  document.getElementById("heartText").textContent =
+    "Your surprise is wrapped in love… and it's waiting just for you. 💗";
+
+  document.getElementById("heartNext").classList.remove("hidden");
+
+  sprinkleHearts(18);
+}
+function unlock() {
+  const value = document.getElementById("nameInput").value.trim();
+  const error = document.getElementById("nameError");
+
+  if (value.toLowerCase() !== "janaki") {
+    error.textContent = "Incorrect password. Try again 💗";
+    return;
+  }
+
+  error.textContent = "";
+  go("s3");
+
+  // Music starts from the beginning after the correct password.
+  song.currentTime = 0;
+
+  const playPromise = song.play();
+
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      song.controls = true;
+
+      const note = document.createElement("p");
+      note.className = "small-note";
+      note.textContent = "Tap play to start the music.";
+
+      document.getElementById("s3").appendChild(note);
+    });
+  }
+
+  sprinkleHearts(22);
+}
+
+document.getElementById("nameInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") unlock();
+});
+
+function revealCard() {
+  if (cardOpened) return;
+
+  cardOpened = true;
+
+  document.getElementById("cardTitle").textContent = "For My Akka ❤️";
+  document.getElementById("cardTapText").classList.add("hidden");
+  document.getElementById("cardInside").classList.remove("hidden");
+  document.getElementById("cardNext").classList.remove("hidden");
+
+  sprinkleHearts(18);
+}
+
+function catchButterfly() {
+  if (butterflyCaught) return;
+
+  butterflyCaught = true;
+
+  // Hide the butterfly and show the photo.
+  document.querySelector(".butterfly-area").classList.add("hidden");
+  document.getElementById("butterflyReveal").classList.remove("hidden");
+
+  sprinkleHearts(24);
+}
+
+function popBalloon(number) {
+  const balloons = document.querySelectorAll(".balloon");
+
+  if (balloonFound) return;
+
+  // The third balloon contains the surprise.
+  if (number === 3) {
+    balloonFound = true;
+
+    // Remove all balloons and their instruction.
+    document.getElementById("balloons").classList.add("hidden");
+    document.getElementById("balloonMessage").classList.add("hidden");
+
+    // Show the photo and message.
+    document.getElementById("balloonReveal").classList.remove("hidden");
+
+    sprinkleHearts(28);
+  } else {
+    balloons[number - 1].textContent = "💨";
+    balloons[number - 1].disabled = true;
+
+    document.getElementById("balloonMessage").textContent =
+      "Not this one! Try another balloon. 🎈";
+  }
+}
+
+function showFinal() {
+  if (finalShown) return;
+
+  finalShown = true;
+
+  // Hide the prompt and button completely.
+  document.getElementById("finalPrompt").classList.add("hidden");
+
+  // Show the final photo and affectionate message.
+  document.getElementById("finalReveal").classList.remove("hidden");
+
+  sprinkleHearts(35);
+}
+
+function sprinkleHearts(count) {
+  const symbols = ["💗", "💕", "💖", "✨", "♡"];
+
+  for (let i = 0; i < count; i++) {
+    const element = document.createElement("span");
+
+    element.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    element.style.position = "fixed";
+    element.style.left = Math.random() * 100 + "vw";
+    element.style.bottom = "-35px";
+    element.style.zIndex = "10";
+    element.style.pointerEvents = "none";
+    element.style.fontSize = (18 + Math.random() * 22) + "px";
+    element.style.animation = "floatUp 4.5s linear forwards";
+
+    document.body.appendChild(element);
+    setTimeout(() => element.remove(), 4700);
+  }
+}
+
+const floatingStyle = document.createElement("style");
+
+floatingStyle.textContent =
+  "@keyframes floatUp{to{transform:translateY(-110vh) rotate(35deg);opacity:0}}";
+
+document.head.appendChild(floatingStyle);
+
+function restart() {
+  song.pause();
+  song.currentTime = 0;
+
+  heartTapped = false;
+  cardOpened = false;
+  butterflyCaught = false;
+  balloonFound = false;
+  finalShown = false;
+
+  document.getElementById("heartText").textContent =
+    "Tap the big heart to begin 💗";
+
+  document.getElementById("heartNext").classList.add("hidden");
+  document.getElementById("nameInput").value = "";
+  document.getElementById("nameError").textContent = "";
+
+  document.getElementById("cardTitle").textContent = "A little surprise";
+  document.getElementById("cardTapText").classList.remove("hidden");
+  document.getElementById("cardInside").classList.add("hidden");
+  document.getElementById("cardNext").classList.add("hidden");
+
+  document.getElementById("butterflyReveal").classList.add("hidden");
+  document.querySelector(".butterfly-area").classList.remove("hidden");
+
+  document.getElementById("balloonReveal").classList.add("hidden");
+  document.getElementById("balloons").classList.remove("hidden");
+  document.getElementById("balloonMessage").classList.remove("hidden");
+
+  document.getElementById("finalPrompt").classList.remove("hidden");
+  document.getElementById("finalReveal").classList.add("hidden");
+
+  document.querySelectorAll(".balloon").forEach(balloon => {
+    balloon.disabled = false;
+    balloon.textContent = "🎈";
+  });
+
+  document.getElementById("balloonMessage").textContent =
+    "Tap a balloon to discover what's inside.";
+
+  go("s1");
+}
+</script>
+
+</body>
+</html>
